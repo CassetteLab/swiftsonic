@@ -133,3 +133,6 @@ public struct Line: Decodable, Sendable, Equatable, Hashable {
         self.start = start
     }
 }
+
+/// Convenience alias — prefer `LyricsLine` at call sites for clarity.
+public typealias LyricsLine = Line
