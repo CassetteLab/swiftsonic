@@ -40,11 +40,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **OpenSubsonic fields on `AlbumID3`** — `explicitStatus: String?` and `version: String?` added to `AlbumID3` and its public init (both default to `nil`).
 
-- **Test count** — test suite grows from 296 to ~370 tests across new suites covering capabilities caching, `KnownExtension`, `getLyricsBySongId` decoding (synced, unsynced, multi-language, empty), and all new public inits.
+- **`Equatable` and `Hashable` on lyrics and capability types** — `LyricsList`, `StructuredLyrics`, `Line`, and `OpenSubsonicExtension` now conform to `Equatable` and `Hashable`, enabling use in `Set` and as `Dictionary` keys.
+
+- **`Equatable` and `Hashable` on all `SharedModels` types** — `ItemGenre`, `ReplayGain`, `ItemDate`, `DiscTitle`, `RecordLabel`, `ContributorArtist`, and `Contributor` all gain full structural equality and hashability.
+
+- **`LyricsLine` typealias** — `public typealias LyricsLine = Line` added for call-site clarity.
+
+- **Test count** — test suite grows from 296 to ~420 tests across new suites covering capabilities caching, `KnownExtension`, `getLyricsBySongId` decoding (synced, unsynced, multi-language, empty, defaults, `"xxx"` language), structural equality on all new types, and all new public inits.
+
+### Changed
+
+- **`StructuredLyrics.offset`** is now `Int` (was `Int?`). Absent values from the server default to `0`. Callers previously checking `offset == nil` should treat `0` as the "not set" sentinel.
+
+- **`StructuredLyrics.lang`** is now `String?` (was `String`). Returns `nil` when the server omits the field. The values `"und"` and `"xxx"` are preserved as-is.
 
 ### Notes
 
-All changes are additive; no breaking changes from v0.6.x. The new `loadCapabilities()` / `refreshCapabilities()` methods complement the existing `fetchCapabilities()` + `serverCapabilities` property pair — choose whichever pattern suits your architecture.
+All changes are additive except the two `StructuredLyrics` field type changes (`offset`, `lang`). These affect code that pattern-matches on `nil` for those fields. The `loadCapabilities()` / `refreshCapabilities()` methods complement the existing `fetchCapabilities()` + `serverCapabilities` property pair — choose whichever pattern suits your architecture.
 
 ---
 
@@ -195,6 +207,7 @@ Both fixes are technically breaking for consumers who accessed `requestURL` or p
 - `ResilienceTests` — white-box tests for retry math and error classification
 - MIT licence, `CONTRIBUTING.md`, `SECURITY.md`
 
+[0.7.0]: https://github.com/MathieuDubart/swiftsonic/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/MathieuDubart/swiftsonic/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/MathieuDubart/swiftsonic/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/MathieuDubart/swiftsonic/compare/v0.4.1...v0.5.0
