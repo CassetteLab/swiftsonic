@@ -76,8 +76,10 @@ public struct StructuredLyrics: Decodable, Sendable, Equatable, Hashable {
 
     /// The language of the lyrics (ideally ISO 639).
     ///
-    /// If the language is unknown, the server returns `"und"` or `"xxx"`.
-    public let lang: String
+    /// `nil` when the server omits the field.
+    /// The values `"und"` and `"xxx"` both indicate an unspecified language —
+    /// SwiftSonic preserves the raw value; interpretation is left to the caller.
+    public let lang: String?
 
     /// `true` if lines carry timing information (``Line/start`` is present).
     public let synced: Bool
@@ -94,16 +96,16 @@ public struct StructuredLyrics: Decodable, Sendable, Equatable, Hashable {
     /// Offset in milliseconds to apply to all line start times.
     ///
     /// Positive values shift lyrics earlier; negative values shift them later.
-    /// Treat absent values as `0`.
-    public let offset: Int?
+    /// Defaults to `0` when absent from the server response.
+    public let offset: Int
 
     public init(
-        lang: String,
+        lang: String? = nil,
         synced: Bool,
         line: [Line] = [],
         displayArtist: String? = nil,
         displayTitle: String? = nil,
-        offset: Int? = nil
+        offset: Int = 0
     ) {
         self.lang          = lang
         self.synced        = synced
@@ -111,6 +113,20 @@ public struct StructuredLyrics: Decodable, Sendable, Equatable, Hashable {
         self.displayArtist = displayArtist
         self.displayTitle  = displayTitle
         self.offset        = offset
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case lang, synced, line, displayArtist, displayTitle, offset
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        lang          = try container.decodeIfPresent(String.self,   forKey: .lang)
+        synced        = try container.decodeIfPresent(Bool.self,     forKey: .synced)  ?? false
+        line          = try container.decodeIfPresent([Line].self,   forKey: .line)    ?? []
+        displayArtist = try container.decodeIfPresent(String.self,   forKey: .displayArtist)
+        displayTitle  = try container.decodeIfPresent(String.self,   forKey: .displayTitle)
+        offset        = try container.decodeIfPresent(Int.self,      forKey: .offset)  ?? 0
     }
 }
 

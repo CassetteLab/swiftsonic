@@ -260,7 +260,7 @@ struct LyricsListPublicInitTests {
         #expect(sl.line.isEmpty)
         #expect(sl.displayArtist == nil)
         #expect(sl.displayTitle == nil)
-        #expect(sl.offset == nil)
+        #expect(sl.offset == 0)
     }
 
     @Test("StructuredLyrics constructs with all fields")
