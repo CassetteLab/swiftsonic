@@ -148,7 +148,7 @@ struct NavidromeNativeAPIUploadTests {
         #expect(req.url?.path.hasSuffix("/api/playlist/playlist-99/image") == true)
     }
 
-    @Test("sets Authorization Bearer header")
+    @Test("sets x-nd-authorization Bearer header")
     func setsBearerAuthorizationHeader() async throws {
         let mock = MockHTTPTransport()
         mock.enqueue(Data(), statusCode: 200)
@@ -163,11 +163,11 @@ struct NavidromeNativeAPIUploadTests {
         )
 
         let req = try #require(mock.lastRequest)
-        let auth = try #require(req.value(forHTTPHeaderField: "Authorization"))
+        let auth = try #require(req.value(forHTTPHeaderField: "x-nd-authorization"))
         #expect(auth == "Bearer my_jwt_token")
     }
 
-    @Test("body contains playlistImage field and image MIME type")
+    @Test("body contains image field and image MIME type")
     func bodyContainsExpectedMultipartFields() async throws {
         let mock = MockHTTPTransport()
         mock.enqueue(Data(), statusCode: 200)
@@ -184,7 +184,7 @@ struct NavidromeNativeAPIUploadTests {
 
         let req = try #require(mock.lastRequest)
         let bodyString = String(decoding: req.httpBody ?? Data(), as: UTF8.self)
-        #expect(bodyString.contains("name=\"playlistImage\""))
+        #expect(bodyString.contains("name=\"image\""))
         #expect(bodyString.contains("Content-Type: image/png"))
         #expect(bodyString.contains("fake_image_bytes"))
     }
