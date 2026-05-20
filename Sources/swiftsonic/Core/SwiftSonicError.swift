@@ -169,6 +169,23 @@ public extension SwiftSonicError {
         }
     }
 
+    /// Whether this error is a TLS certificate validation failure.
+    ///
+    /// Covers both server-side errors (`.serverCertificateUntrusted`,
+    /// `.serverCertificateHasBadDate`, `.serverCertificateHasUnknownRoot`,
+    /// `.serverCertificateNotYetValid`) and client-side errors
+    /// (`.clientCertificateRejected`, `.clientCertificateRequired`).
+    var isCertificateError: Bool {
+        guard case .network(let urlError) = self else { return false }
+        switch urlError.code {
+        case .serverCertificateUntrusted, .serverCertificateHasBadDate,
+             .serverCertificateHasUnknownRoot, .serverCertificateNotYetValid,
+             .clientCertificateRejected, .clientCertificateRequired:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 // MARK: - API error detail
