@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.8.2] — 2026-05-20
+
+### Added
+
+- **`SwiftSonicError.isDNSFailure`** — computed property returning `true` when the error is a `.network` case whose `URLError.Code` is `.cannotFindHost` or `.dnsLookupFailed`. The doc-comment calls out that on iOS a Local Network Privacy permission block surfaces identically as `.cannotFindHost` and is therefore indistinguishable from a genuine DNS failure via this helper. Identified as a recurring mapping need during Cassette's dogfooding audit.
+
+- **`SwiftSonicError.isCertificateError`** — computed property returning `true` for `.network` cases covering all six TLS certificate `URLError.Code` values: `.serverCertificateUntrusted`, `.serverCertificateHasBadDate`, `.serverCertificateHasUnknownRoot`, `.serverCertificateNotYetValid`, `.clientCertificateRejected`, and `.clientCertificateRequired`. Identified as a recurring mapping need during Cassette's dogfooding audit.
+
+---
+
 ## [0.8.1] — 2026-05-16
 
 ### Fixed

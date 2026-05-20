@@ -219,6 +219,16 @@ do {
 }
 ```
 
+SwiftSonicError also exposes convenience helpers for common checks:
+
+| Helper | Returns `true` when… |
+|---|---|
+| `isTransient` | error is safe to retry (timeouts, 5xx, rate limits) |
+| `isAuthenticationFailure` | auth failed (wrong credentials, 401, 403) |
+| `isDNSFailure` | DNS resolution failed (`.cannotFindHost`, `.dnsLookupFailed`) |
+| `isCertificateError` | TLS certificate validation failed (server or client cert) |
+| `suggestedRetryDelay` | *(non-nil)* `Retry-After` seconds from a rate-limit response |
+
 ### Retry and resilience
 
 SwiftSonicClient automatically retries transient failures (network errors, HTTP 5xx, HTTP 429) with exponential back-off. The default policy makes up to 3 attempts:
