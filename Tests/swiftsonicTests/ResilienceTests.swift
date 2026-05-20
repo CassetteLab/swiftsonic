@@ -183,6 +183,70 @@ struct SuggestedRetryDelayTests {
     }
 }
 
+// MARK: - SwiftSonicError.isDNSFailure
+
+@Suite("SwiftSonicError.isDNSFailure")
+struct IsDNSFailureTests {
+
+    @Test("cannotFindHost and dnsLookupFailed return true")
+    func dnsCodes() {
+        #expect(SwiftSonicError.network(URLError(.cannotFindHost)).isDNSFailure == true)
+        #expect(SwiftSonicError.network(URLError(.dnsLookupFailed)).isDNSFailure == true)
+    }
+
+    @Test("out-of-scope network codes return false")
+    func outOfScopeNetworkCodes() {
+        #expect(SwiftSonicError.network(URLError(.timedOut)).isDNSFailure == false)
+        #expect(SwiftSonicError.network(URLError(.cannotConnectToHost)).isDNSFailure == false)
+    }
+
+    @Test("non-network error cases return false")
+    func nonNetworkCasesReturnFalse() {
+        let apiError = SubsonicAPIError(code: .generic, message: "error", helpURL: nil, endpoint: "ping", serverHost: "test.example.com")
+        #expect(SwiftSonicError.api(apiError).isDNSFailure == false)
+        #expect(SwiftSonicError.httpError(statusCode: 503, endpoint: "ping", serverHost: "test.example.com").isDNSFailure == false)
+        #expect(SwiftSonicError.rateLimited(retryAfter: nil, endpoint: "ping", serverHost: "test.example.com").isDNSFailure == false)
+    }
+}
+
+// MARK: - SwiftSonicError.isCertificateError
+
+@Suite("SwiftSonicError.isCertificateError")
+struct IsCertificateErrorTests {
+
+    @Test("all certificate URLError codes return true")
+    func certCodes() {
+        let certCodes: [URLError.Code] = [
+            .serverCertificateUntrusted,
+            .serverCertificateHasBadDate,
+            .serverCertificateHasUnknownRoot,
+            .serverCertificateNotYetValid,
+            .clientCertificateRejected,
+            .clientCertificateRequired,
+        ]
+        for code in certCodes {
+            #expect(
+                SwiftSonicError.network(URLError(code)).isCertificateError == true,
+                "Expected URLError.\(code) to be a certificate error"
+            )
+        }
+    }
+
+    @Test("out-of-scope network codes return false")
+    func outOfScopeNetworkCodes() {
+        #expect(SwiftSonicError.network(URLError(.timedOut)).isCertificateError == false)
+        #expect(SwiftSonicError.network(URLError(.cannotConnectToHost)).isCertificateError == false)
+    }
+
+    @Test("non-network error cases return false")
+    func nonNetworkCasesReturnFalse() {
+        let apiError = SubsonicAPIError(code: .generic, message: "error", helpURL: nil, endpoint: "ping", serverHost: "test.example.com")
+        #expect(SwiftSonicError.api(apiError).isCertificateError == false)
+        #expect(SwiftSonicError.httpError(statusCode: 503, endpoint: "ping", serverHost: "test.example.com").isCertificateError == false)
+        #expect(SwiftSonicError.rateLimited(retryAfter: nil, endpoint: "ping", serverHost: "test.example.com").isCertificateError == false)
+    }
+}
+
 // MARK: - Metrics collector
 
 @Suite("Metrics collector")
