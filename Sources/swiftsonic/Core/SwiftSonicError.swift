@@ -150,6 +150,25 @@ public extension SwiftSonicError {
         if case .rateLimited(let retryAfter, _, _) = self { return retryAfter }
         return nil
     }
+
+    /// Whether this error is a DNS resolution failure.
+    ///
+    /// Returns `true` when the underlying `URLError` has code `.cannotFindHost`
+    /// or `.dnsLookupFailed`.
+    ///
+    /// > Note: On iOS, a Local Network Privacy permission block typically surfaces
+    /// > as `.cannotFindHost` and is therefore indistinguishable from a genuine
+    /// > DNS failure via this helper.
+    var isDNSFailure: Bool {
+        guard case .network(let urlError) = self else { return false }
+        switch urlError.code {
+        case .cannotFindHost, .dnsLookupFailed:
+            return true
+        default:
+            return false
+        }
+    }
+
 }
 
 // MARK: - API error detail
