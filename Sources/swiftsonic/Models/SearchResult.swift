@@ -24,6 +24,17 @@ public struct SearchResult2: Decodable, Sendable {
     public let album: [Song]?
     /// Matching songs.
     public let song: [Song]?
+
+    private enum CodingKeys: String, CodingKey {
+        case artist, album, song
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        artist = try c.decodeLossily([Song].self, forKey: .artist)
+        album  = try c.decodeLossily([Song].self, forKey: .album)
+        song   = try c.decodeLossily([Song].self, forKey: .song)
+    }
 }
 
 // MARK: - SearchResult3
@@ -39,4 +50,15 @@ public struct SearchResult3: Decodable, Sendable {
     public let album: [AlbumID3]?
     /// Matching songs.
     public let song: [Song]?
+
+    private enum CodingKeys: String, CodingKey {
+        case artist, album, song
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        artist = try c.decodeLossily([ArtistID3].self, forKey: .artist)
+        album  = try c.decodeLossily([AlbumID3].self, forKey: .album)
+        song   = try c.decodeLossily([Song].self, forKey: .song)
+    }
 }
