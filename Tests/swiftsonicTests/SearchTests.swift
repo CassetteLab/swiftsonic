@@ -175,3 +175,68 @@ struct Search3Tests {
         #expect(results.song == nil)
     }
 }
+
+// MARK: - Resilient decoding
+
+@Suite("SearchResult resilient decoding")
+struct SearchResultResilientDecodingTests {
+
+    @Test("malformed song is skipped, valid songs are returned")
+    func skipsMalformedSong() async throws {
+        // The middle item is missing the required `title` field.
+        let json = """
+        {
+            "subsonic-response": {
+                "status": "ok",
+                "version": "1.16.1",
+                "searchResult3": {
+                    "song": [
+                        {"id": "1", "title": "Valid Song"},
+                        {"id": "2"},
+                        {"id": "3", "title": "Also Valid"}
+                    ]
+                }
+            }
+        }
+        """.data(using: .utf8)!
+
+        let mock = MockHTTPTransport()
+        mock.enqueue(json)
+
+        let client = SwiftSonicClient(configuration: .test, transport: mock)
+        let results = try await client.search3("test")
+        let songs = try #require(results.song)
+
+        #expect(songs.count == 2)
+        #expect(songs[0].title == "Valid Song")
+        #expect(songs[1].title == "Also Valid")
+    }
+
+    @Test("all valid items are preserved")
+    func preservesAllValidSongs() async throws {
+        let json = """
+        {
+            "subsonic-response": {
+                "status": "ok",
+                "version": "1.16.1",
+                "searchResult3": {
+                    "song": [
+                        {"id": "1", "title": "Song One"},
+                        {"id": "2", "title": "Song Two"},
+                        {"id": "3", "title": "Song Three"}
+                    ]
+                }
+            }
+        }
+        """.data(using: .utf8)!
+
+        let mock = MockHTTPTransport()
+        mock.enqueue(json)
+
+        let client = SwiftSonicClient(configuration: .test, transport: mock)
+        let results = try await client.search3("test")
+        let songs = try #require(results.song)
+
+        #expect(songs.count == 3)
+    }
+}
