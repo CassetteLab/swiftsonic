@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.9.0] — 2026-07-17
+
+### Added
+
+- **`reportPlayback(mediaId:mediaType:positionMs:state:playbackRate:ignoreScrobble:)`** — the OpenSubsonic **Playback Report** extension. Reports the client's playback timeline (`starting` / `playing` / `paused` / `stopped` with a position in milliseconds) so server-side integrations can show real playback state rather than a bare now-playing. `ignoreScrobble` sends rich state without triggering a scrobble/play-count, so it can run alongside an existing scrobble without double-counting. Gate calls on `capabilities.supports(.playbackReport)` — the `KnownExtension` case already exists. Adds `PlaybackReportState` and `PlaybackReportMediaType`.
+
+---
+
 ## [0.8.2] — 2026-05-20
 
 ### Added
