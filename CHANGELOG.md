@@ -160,7 +160,7 @@ All changes are additive; no breaking changes from v0.6.0.
 ### Security
 
 > **Upgrade recommended.** This release fixes two credential-leak vulnerabilities present in v0.1.0–v0.4.0.
-> See the [GitHub Security Advisory](https://github.com/MathieuDubart/swiftsonic/security/advisories) for full details.
+> See the [GitHub Security Advisory](https://github.com/CassetteLab/swiftsonic/security/advisories) for full details.
 
 - **[A1] Credential leak via error `requestURL`** — `SwiftSonicError.httpError`, `.rateLimited`, and `SubsonicAPIError` previously stored the full request URL (including `u`, `t`, `s`, or `apiKey` query parameters) as a public `requestURL: URL` field. Any consumer passing these errors to a crash reporter, analytics pipeline, or `print()` call would inadvertently expose authentication credentials. The full URL has been replaced with two credential-free fields: `endpoint: String` (e.g. `"getArtists"`) and `serverHost: String?` (e.g. `"music.example.com"`).
 
@@ -247,16 +247,16 @@ Both fixes are technically breaking for consumers who accessed `requestURL` or p
 - `ResilienceTests` — white-box tests for retry math and error classification
 - MIT licence, `CONTRIBUTING.md`, `SECURITY.md`
 
-[0.8.2]: https://github.com/MathieuDubart/swiftsonic/compare/v0.8.1...v0.8.2
-[0.8.1]: https://github.com/MathieuDubart/swiftsonic/compare/v0.8.0...v0.8.1
-[0.8.0]: https://github.com/MathieuDubart/swiftsonic/compare/v0.7.0...v0.8.0
-[0.7.0]: https://github.com/MathieuDubart/swiftsonic/compare/v0.6.1...v0.7.0
-[0.6.1]: https://github.com/MathieuDubart/swiftsonic/compare/v0.6.0...v0.6.1
-[0.6.0]: https://github.com/MathieuDubart/swiftsonic/compare/v0.5.0...v0.6.0
-[0.5.0]: https://github.com/MathieuDubart/swiftsonic/compare/v0.4.1...v0.5.0
-[0.4.1]: https://github.com/MathieuDubart/swiftsonic/compare/v0.4.0...v0.4.1
-[0.4.0]: https://github.com/MathieuDubart/swiftsonic/compare/v0.3.1...v0.4.0
-[0.3.1]: https://github.com/MathieuDubart/swiftsonic/compare/v0.3.0...v0.3.1
-[0.3.0]: https://github.com/MathieuDubart/swiftsonic/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/MathieuDubart/swiftsonic/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/MathieuDubart/swiftsonic/releases/tag/v0.1.0
+[0.8.2]: https://github.com/CassetteLab/swiftsonic/compare/v0.8.1...v0.8.2
+[0.8.1]: https://github.com/CassetteLab/swiftsonic/compare/v0.8.0...v0.8.1
+[0.8.0]: https://github.com/CassetteLab/swiftsonic/compare/v0.7.0...v0.8.0
+[0.7.0]: https://github.com/CassetteLab/swiftsonic/compare/v0.6.1...v0.7.0
+[0.6.1]: https://github.com/CassetteLab/swiftsonic/compare/v0.6.0...v0.6.1
+[0.6.0]: https://github.com/CassetteLab/swiftsonic/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/CassetteLab/swiftsonic/compare/v0.4.1...v0.5.0
+[0.4.1]: https://github.com/CassetteLab/swiftsonic/compare/v0.4.0...v0.4.1
+[0.4.0]: https://github.com/CassetteLab/swiftsonic/compare/v0.3.1...v0.4.0
+[0.3.1]: https://github.com/CassetteLab/swiftsonic/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/CassetteLab/swiftsonic/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/CassetteLab/swiftsonic/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/CassetteLab/swiftsonic/releases/tag/v0.1.0

@@ -13,7 +13,7 @@
 
 Please **do not** open a public GitHub issue for security vulnerabilities.
 
-Instead, report them privately via [GitHub's security advisory system](https://github.com/MathieuDubart/swiftsonic/security/advisories/new).
+Instead, report them privately via [GitHub's security advisory system](https://github.com/CassetteLab/swiftsonic/security/advisories/new).
 
 You will receive an acknowledgement within **72 hours**. If the vulnerability is confirmed, a patch and coordinated disclosure will follow within a reasonable timeframe depending on severity.
 
