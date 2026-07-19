@@ -507,6 +507,19 @@ for set in list.structuredLyrics {
 
 ---
 
+## Documentation
+
+Design decisions, the internal security audit, and cross-cutting technical notes live
+in the **[CassetteLab knowledge vault](https://github.com/CassetteLab/obsidian)** — an
+Obsidian vault versioned with Git, shared across the whole ecosystem.
+
+Anything that explains **why** a choice was made lives there rather than in this repo.
+`README.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CHANGELOG.md`, and `LICENSE` stay here.
+
+> The vault is private to the organisation — open an issue if you need access.
+
+---
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
