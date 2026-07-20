@@ -1,9 +1,9 @@
 # SwiftSonic
 
-[![CI](https://github.com/MathieuDubart/swiftsonic/actions/workflows/ci.yml/badge.svg)](https://github.com/MathieuDubart/swiftsonic/actions/workflows/ci.yml)
+[![CI](https://github.com/CassetteLab/swiftsonic/actions/workflows/ci.yml/badge.svg)](https://github.com/CassetteLab/swiftsonic/actions/workflows/ci.yml)
 [![Swift 6](https://img.shields.io/badge/Swift-6.0-F05138?logo=swift&logoColor=white)](https://swift.org)
 [![SPM compatible](https://img.shields.io/badge/SPM-compatible-4BC51D)](https://swift.org/package-manager)
-[![GitHub release](https://img.shields.io/github/v/release/MathieuDubart/swiftsonic?color=4BC51D)](https://github.com/MathieuDubart/swiftsonic/releases)
+[![GitHub release](https://img.shields.io/github/v/release/CassetteLab/swiftsonic?color=4BC51D)](https://github.com/CassetteLab/swiftsonic/releases)
 [![Platforms](https://img.shields.io/badge/platforms-iOS%2016%20%7C%20macOS%2013%20%7C%20tvOS%2016%20%7C%20watchOS%209%20%7C%20visionOS%201-lightgrey)](https://developer.apple.com/swift/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
@@ -58,7 +58,7 @@ Add SwiftSonic to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/MathieuDubart/swiftsonic.git", from: "0.1.0")
+    .package(url: "https://github.com/CassetteLab/swiftsonic.git", from: "0.1.0")
 ],
 targets: [
     .target(
@@ -504,6 +504,19 @@ for set in list.structuredLyrics {
 - **No UI coupling** — `Data` and `URL` only, never `UIImage` or `SwiftUI.Image`
 - **Resilient by default** — 3-attempt exponential back-off retry, configurable via `RetryPolicy`
 - **Observable** — `logSubsystem:` for `os.Logger` output; `metricsCollector:` for custom metrics
+
+---
+
+## Documentation
+
+Design decisions, the internal security audit, and cross-cutting technical notes live
+in the **[CassetteLab knowledge vault](https://github.com/CassetteLab/obsidian)** — an
+Obsidian vault versioned with Git, shared across the whole ecosystem.
+
+Anything that explains **why** a choice was made lives there rather than in this repo.
+`README.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CHANGELOG.md`, and `LICENSE` stay here.
+
+> The vault is private to the organisation — open an issue if you need access.
 
 ---
 

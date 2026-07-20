@@ -25,7 +25,7 @@ Be kind and constructive. Harassment, dismissiveness, or personal attacks have n
 
 ## Reporting bugs
 
-Open a [GitHub issue](https://github.com/MathieuDubart/swiftsonic/issues) with:
+Open a [GitHub issue](https://github.com/CassetteLab/swiftsonic/issues) with:
 
 - A short, descriptive title
 - The SwiftSonic version (`0.1.0`, `main`, etc.)
@@ -43,7 +43,7 @@ Open a GitHub issue with the `enhancement` label. Describe the use case first, t
 ## Development setup
 
 ```bash
-git clone https://github.com/MathieuDubart/swiftsonic.git
+git clone https://github.com/CassetteLab/swiftsonic.git
 cd swiftsonic
 swift build
 swift test
